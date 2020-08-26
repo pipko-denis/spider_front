@@ -40,7 +40,7 @@ export default class StationsSidebar extends Component {
           key={id}
           onClick={() => this.props.setCurrentStation(id)}>
           {displayName}
-          < img className="person-image" alt="person" className="img-status"
+          < img className="person-image img-status" alt="person" 
             src={`./img/spider/email_${(replError) ? 'red' : 'green' }.png`} /> 
         </li>
       );

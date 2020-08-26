@@ -1,7 +1,7 @@
 export default class SwapiService {
 
-  //_apiBase = 'http://172.25.78.88:8080/spider/';
-  _apiBase = 'http://172.25.78.109:8080/';
+  _apiBase = 'http://172.25.78.88:8080/cdcapi/';
+  //_apiBase = 'http://172.25.78.109:8080/';
   _headers = {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',

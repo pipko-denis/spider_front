@@ -11,13 +11,14 @@ export default class StationDefectsSlice extends Component{
 
   renderItems(arr) {
     return arr.map((item) => {
-      const { id, onDate, trainsPassedCount, carsPassedCount, warnWheelsCount, alarmWheelsCount, trainsCountSendToScat } = item;
+      const { id, onDate, trainsPassedCount, carsPassedCount, wheelsPassedCount, warnWheelsCount, alarmWheelsCount, trainsCountSendToScat } = item;
 
       return (
         <tr key={id}>
           <th scope="row">{onDate}</th>
           <td>{trainsPassedCount}</td>
           <td>{carsPassedCount}</td>
+          <td>{wheelsPassedCount}</td>
           <td>{warnWheelsCount}</td>
           <td>{alarmWheelsCount}</td>
           <td>{trainsCountSendToScat}</td>          
@@ -76,6 +77,7 @@ export default class StationDefectsSlice extends Component{
               <th scope="col">Дата</th>
               <th scope="col">Кол. составов</th>
               <th scope="col">Кол. вагонов</th>
+              <th scope="col">Кол. осей</th>
               <th scope="col">Т0</th>
               <th scope="col">Т1</th>
               <th scope="col">Составы в СКАТ</th>

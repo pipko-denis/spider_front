@@ -26,20 +26,36 @@ export default class StationMainInfo extends Component{
     } 
 
 
-    const { station: { 
-                      id = 0, 
-                      displayName = '-', 
-                      fullName = '-', 
-                      host = '127.0.0.1', 
-                      lastReplDate = null, 
-                      lat = 0.0, 
-                      lon = 0.0, 
-                      port = 3306, 
-                      replEnab = false, 
-                      replError = false, 
-                      replFreqMs = 60000} = {} } = this.props;
+    // const { station: { 
+    //                   id = 0, 
+    //                   displayName = '-', 
+    //                   fullName = '-', 
+    //                   host = '127.0.0.1', 
+    //                   lastReplDate = '', 
+    //                   lat = 0.0, 
+    //                   lon = 0.0, 
+    //                   port = 3306, 
+    //                   replEnab = false, 
+    //                   replError = false, 
+    //                   replFreqMs = 60000} = {} } = this.props;
 
-      const { readOnly } = this.props;
+    
+    const { readOnly, station } = this.props;
+
+    const { 
+      id = 0,
+      displayName = '-',
+      fullName = '-',
+      host = '127.0.0.1',
+      lastReplDate = '123',
+      lat = 0.0,
+      lon = 0.0,
+      port = 3306,
+      replEnab = false,
+      replError = false,
+      replFreqMs = 60000 } = station;
+
+    console.log(lastReplDate);
 
       const spinner = (readOnly) ? <span className="spinner-border spinner-border-sm mr-1" id="spinerLogs" role="status" aria-hidden="false" ></span> : null;
 

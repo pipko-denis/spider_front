@@ -148,22 +148,43 @@ export default class StationsCard extends Component{
       const { station, readOnly, defects, loadingDefects, dtBeg, dtEnd } = this.state;      
 
       return (
-        <div className="p-2 mt-2 border rounded">
-          <h3>ст.{station.displayName}</h3>
-          <StationMainInfo 
-            setStationPropByName={this.setStationPropByName}
-            updateStationInfo={this.updateStationInfo}
-            station={station}
-            readOnly={readOnly}
-          />  
-          <StationDefectsSlice 
-            defects={defects}
-            loadingDefects={loadingDefects}
-            dtBeg={dtBeg}
-            dtEnd={dtEnd}
-            setStateByPropName={this.setStateByPropName}
-            loadDefects={this.loadDefects}
-          />
+        <div className="p-2 mt-2 border rounded">          
+          <div>
+            <div className="p-2 mt-2 d-flex">
+              <div className="mr-auto">
+                <h3>ст.{station.displayName}</h3>
+              </div>
+
+              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary">
+                    < img className="person-image img-status" alt="person"
+                      src="./img/stationcard/info.png" /> 
+                  </button>
+                  <button type="button" class="btn btn-primary">
+                    < img className="person-image img-status" alt="person"
+                      src="./img/stationcard/file-table-outline.png" />
+                  </button>
+                </div>
+              </div>
+
+            </div>
+            
+            <StationMainInfo 
+              setStationPropByName={this.setStationPropByName}
+              updateStationInfo={this.updateStationInfo}
+              station={station}
+              readOnly={readOnly}
+            />  
+            <StationDefectsSlice 
+              defects={defects}
+              loadingDefects={loadingDefects}
+              dtBeg={dtBeg}
+              dtEnd={dtEnd}
+              setStateByPropName={this.setStateByPropName}
+              loadDefects={this.loadDefects}
+            />
+          </div>  
         </div>
       );
     }
