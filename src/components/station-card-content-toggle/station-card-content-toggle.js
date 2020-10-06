@@ -9,18 +9,17 @@ export default class StationCardContentToggle extends Component{
 
     const buttonsArray = [
       { label: 'Основное', statusName: 'main', id: 1, imagesrc: "./img/stationcard/station"},
-      { label: 'Статистика', statusName: 'statistics', id: 2, imagesrc: "./img/stationcard/table" },        
+      { label: 'Статистика', statusName: 'slice', id: 2, imagesrc: "./img/stationcard/table" },        
       { label: 'Составы', statusName: 'trains', id: 3, imagesrc: "./img/stationcard/train" },
-      { label: 'Дефекты', statusName: 'defects', id: 4, imagesrc: "./img/stationcard/tire" },
+      { label: 'Дефекты', statusName: 'impulse', id: 4, imagesrc: "./img/stationcard/tire" },
       { label: 'СКАТ', statusName: 'scat', id: 5, imagesrc: "./img/stationcard/stingray" },
-      { label: 'Диаграммы', statusName: 'diag', id: 5, imagesrc: "./img/stationcard/statistics" },
+      { label: 'Диаграммы', statusName: 'diag', id: 6, imagesrc: "./img/stationcard/statistics" },
       
     ];
 
     //console.log('currentContentType='+currentContentType);
 
     const buttons = buttonsArray.map( (el) => {
-      console.log(el.imagesrc + `${(currentContentType === el.statusName) ? "_white" : "_black"}.png`);
       return (<button type="button" 
                       className={`btn btn${(currentContentType === el.statusName) ? "-primary" : "-outline-secondary"}`} 
                       onClick={ () => onContentToggle( el.statusName ) } 

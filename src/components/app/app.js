@@ -44,8 +44,14 @@ export default class App extends Component{
 
   onContentToggle = (currentContentType) => {
     //console.log(currentContentType);
-    this.setState({ currentContentType: currentContentType });
-    console.log('currentContentType', this.state.currentContentType);
+    this.setState({ currentContentType });
+    //console.log('currentContentType', this.state.currentContentType);
+  }
+
+  onContentSwitch = () => {    
+    const { currentContentType } = this.state;
+    if (currentContentType === 'mapctrl') this.onContentToggle('details')
+    else this.onContentToggle('mapctrl');    
   }
 
   render(){
@@ -60,10 +66,12 @@ export default class App extends Component{
         <div className="container-fluid ">
           <div className="row high-component">
           <div className="p-3 col-sm-5 col-md-4 col-lg-3">
-              <StationsSidebar 
-                getStations={getStations} 
+              <StationsSidebar                 
                 stations={stations}
+                currentStation={currentStation}
+                getStations={getStations} 
                 setCurrentStation={this.setCurrentStation}
+                onContentSwitch={this.onContentSwitch}
               />
           </div>
             <div className="p-2 col-sm-7 col-md-8 col-lg-9">

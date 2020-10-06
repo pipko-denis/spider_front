@@ -47,7 +47,7 @@ export default class StationMainInfo extends Component{
       displayName = '-',
       fullName = '-',
       host = '127.0.0.1',
-      lastReplDate = '123',
+      lastReplDate = '',
       lat = 0.0,
       lon = 0.0,
       port = 3306,
@@ -55,7 +55,7 @@ export default class StationMainInfo extends Component{
       replError = false,
       replFreqMs = 60000 } = station;
 
-    console.log(lastReplDate);
+    //console.log(lastReplDate);
 
       const spinner = (readOnly) ? <span className="spinner-border spinner-border-sm mr-1" id="spinerLogs" role="status" aria-hidden="false" ></span> : null;
 
@@ -115,12 +115,12 @@ export default class StationMainInfo extends Component{
           <div className="row">
             <div className="col-sm-6">
               <label className="col-form-label" htmlFor="lastReplDate">Дата последней репликации</label>
-              <input readOnly type="text" className="form-control" placeholder="lastReplDate" id="lastReplDate" 
-              value={lastReplDate} />
+              <input readOnly type="text" className="form-control" id="lastReplDate" 
+              value={lastReplDate || ''} />
             </div>
             <div className="col-sm-6">
               <label className="col-form-label" htmlFor="replError">Наличие ошибок при последней репликации</label>
-              <input readOnly type="text" className="form-control" placeholder="replError" id="replError"
+              <input readOnly type="text" className="form-control" id="replError"
               value={(replError) ? 'есть' : 'отсутствуют'}/>
             </div>
           </div>              

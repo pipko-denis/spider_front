@@ -35,6 +35,20 @@ export default class SwapiService {
     return body;
   }
 
+  getData = async (stationId, dtBeg, dtEnd, link) => {
+    const res = await fetch(`${this._apiBase}api/${link}/${stationId}/${dtBeg}/${dtEnd}`, {
+      headers: this._headers
+    });
+
+    if (!res.ok) {
+      const body = await res.json();
+      console.log(body);
+      throw new Error(`Не удалось загрузить список суммарных данных по дефектам, статус: ${res.status}`)
+    }
+    const body = await res.json();
+    return body;
+  }
+
 
   getStation = async (id) => {
     const res = await fetch(`${this._apiBase}api/stations/${id}`, {

@@ -1,6 +1,5 @@
 
 import React, {Component} from 'react';
-import ReactDOM, { render } from 'react-dom';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import './mapctrl.css';
@@ -46,12 +45,12 @@ export default class MapCtrl extends Component{
       )
     })
 
-    const position = [54.9646539856494, 83.1201339945816];
+    //const position = [54.9646539856494, 83.1201339945816];
     let center = [54.550301, 87.802674];
     let zoom = 4;
     const centerStation = stations.find( (el) => { return el.id === currentStation} );
 
-    if (centerStation ){
+    if ((centerStation) && (centerStation.lat) && (centerStation.lon)){
       center = [centerStation.lat, centerStation.lon] ;
       zoom = 13;
     }

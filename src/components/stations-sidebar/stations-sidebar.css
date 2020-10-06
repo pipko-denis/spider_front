@@ -9,3 +9,8 @@
   width: 20px;
   height: 20px;
 }
+
+.border-top{
+  border-top-width:1px;
+  background-color:#f5f7f7;
+}

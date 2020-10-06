@@ -12,7 +12,7 @@ export default class App extends Component {
         <div className="navbar-collapse collapse" id="navbarColor01" >
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <a className="nav-link" href="/">Санции</a>
+              <a className="nav-link" href="/">Станции</a>
             </li>
           </ul>
         </div>

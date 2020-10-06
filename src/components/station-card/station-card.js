@@ -1,11 +1,10 @@
 
 import React, {Component} from 'react';
-import ReactDOM from 'react';
 import './station-card.css';
 import CdcService from '../../services/cdc-service';
 import StationMainInfo from '../station-main-info'
-import StationDefectsSlice from '../station-defects-slice';
 import StationCardContentToggle from '../station-card-content-toggle';
+import UniversalTable from '../universal-table';
 
 export default class StationsCard extends Component{
 
@@ -16,30 +15,36 @@ export default class StationsCard extends Component{
     propName: null,
     propValue: null,
     readOnly: false,
-    defects: [],
-    dtBeg: (new Date((new Date()).getTime() - 7 * 24 * 3600000)).toISOString().substr(0, 10),
-    dtEnd: new Date().toISOString().substr(0, 10), //'2020-08-13',
-    loadingDefects: false,
+    tableData: [],
+    dtBeg: this.formatDate(new Date((new Date()).getTime() - 7 * 24 * 3600000)),//(new Date((new Date()).getTime() - 7 * 24 * 3600000 + 3 * 3600000)).toISOString().substr(0, 10),
+    dtEnd: this.formatDate(new Date()), //(new Date((new Date()).getTime() - 7 * 24 * 3600000)).toISOString().substr(0, 10), //'2020-08-13',
+    loadingState:false,
     currentContentType: 'main',
   }
 
+/*  
   constructor(){
     super();
-    const curDate = new Date();
+    //const curDate = new Date();
     //console.log(curDate.toISOString().substr(0,10));
-    const prevDate = new Date(curDate.getTime() - 7 * 24 * 3600000);
+    //const prevDate = new Date(curDate.getTime() - 7 * 24 * 3600000);
     //console.log(prevDate.toISOString().substr(0, 10));
 
     // this.setStateByPropName('dtEnd', curDate.toISOString().substr(0, 10));
     // this.setStateByPropName('dtBeg', prevDate.toISOString().substr(0, 10));
   }
+*/
 
+  formatDate(curDate){
+    const resDate = new Date(Date.UTC(curDate.getFullYear(),curDate.getMonth(),curDate.getDate(),0,0,0))
+    //console.log(curDate, curDate.getFullYear() + '-' + curDate.getMonth() + '-' + curDate.getDate())
+    //console.log(resDate.toISOString().substr(0, 10))
+    return resDate.toISOString().substr(0, 10);//curDate.getFullYear()+'-'+curDate.getMonth()+'-'+curDate.getDate();    
+  }
 
   setStateReadOnly(readOnly) {
     this.setState(() => {return { readOnly }})
   }
-
-
 
 
   updateStationInfo = () => {
@@ -65,6 +70,7 @@ export default class StationsCard extends Component{
   }
 
   setStateByPropName = (propName, value) => {
+    //console.log(propName,value)
     this.setState((state) => { return { [propName]: value } })
   }
 
@@ -92,34 +98,33 @@ export default class StationsCard extends Component{
       });
   }
 
-  loadDefects = () => {
-    this.setState(() => { return { loadingDefects: false } })
+  loadData = () => {
+    this.setState(() => { return { loadingState: true , tableData:[]} })
     // const { station } = this.props;
     // const { dtBeg, dtEnd } = this.state;
 
     const { currentStation } = this.props;
 
-    if  (!currentStation) { return };
+    if (!currentStation) { return };
 
-    const { dtBeg, dtEnd } = this.state;
-    console.log('loadDefects', currentStation, dtBeg, dtEnd)
-    this.cdcService.getDaySliceByPeriodStation(currentStation, dtBeg, dtEnd)
-      .then((defects) => {
-        //console.log(defects);
+    const { dtBeg, dtEnd, currentContentType } = this.state;
+    //console.log('loadData', currentStation, dtBeg, dtEnd, currentContentType)
+    this.cdcService.getData(currentStation, dtBeg, dtEnd, currentContentType)
+      .then((tableData) => {
+        //console.log(tableData);
         this.setState(() => {
-          return { defects, loadingDefects: false }
+          return { tableData, loadingState: false }
         })
       })
       .catch((err) => {
-        this.setState(() => { return { loadingDefects: false }  })
+        this.setState(() => { return { loadingState: false } })
         console.log(err)
       });
-  }  
+  }   
 
   componentDidMount() {
-    console.log('componentDidMount', this.props);
+    //console.log('componentDidMount', this.props);
     this.loadStationMainInfo();
-    this.loadDefects();
   }
 
   // componentWillReceiveProps(){
@@ -128,9 +133,40 @@ export default class StationsCard extends Component{
 
   componentDidUpdate(prevProps, prevState) {
     //console.log('componentDidUpdate', prevProps);
-    if (prevProps.currentStation != this.props.currentStation) {
+    if (prevProps.currentStation !== this.props.currentStation) {
       this.loadStationMainInfo();
-      this.loadDefects();
+    }
+
+    if ( (this.state.currentContentType !== 'diag') && (this.state.currentContentType !== 'main') ) {
+      if ((this.state.currentContentType !== prevState.currentContentType) || (prevProps.currentStation !== this.props.currentStation) ){
+        if (this.state.currentContentType === 'slice') {          
+          // this.setState(() => { return { 
+          //   dtBeg: (new Date((new Date()).getTime() - 7 * 24 * 3600000)).toISOString().substr(0, 10),
+          //   dtEnd: new Date().toISOString().substr(0, 10)
+          // } })
+          this.setStateByPropName('dtBeg', this.formatDate(new Date((new Date()).getTime() - 7 * 24 * 3600000)));// (new Date((new Date()).getTime() - 7 * 24 * 3600000)).toISOString().substr(0, 10));
+          this.setStateByPropName('dtEnd', this.formatDate(new Date()));// new Date().toISOString().substr(0, 10));
+          setTimeout(this.loadData,200);
+        } else {
+          this.setState(() => {
+            return {
+              dtBeg: this.formatDate(new Date()),// new Date().toISOString().substr(0, 10),
+              dtEnd: this.formatDate(new Date()),// new Date().toISOString().substr(0, 10)
+            }
+          })
+          //this.loadData();
+          setTimeout(this.loadData, 200);
+          // this.setStateByPropName('dtBeg', new Date().toISOString().substr(0, 10));
+          // this.setStateByPropName('dtEnd', new Date().toISOString().substr(0, 10));
+        }
+        
+        //console.log(this.state.currentContentType);
+        
+//        this.setState(() => {return { tableData: [], loadingState: false }})
+
+
+
+      }
     }
 
   }
@@ -139,7 +175,7 @@ export default class StationsCard extends Component{
   onContentToggle = (currentContentType) => {
     //console.log(currentContentType);
     this.setState({ currentContentType: currentContentType });
-    console.log('currentContentType', this.state.currentContentType);
+    //console.log('currentContentType', this.state.currentContentType);
   }
 
 
@@ -154,7 +190,7 @@ export default class StationsCard extends Component{
 
       //const { currentStation } = this.props;      
       //const { station: { displayName } = {} } = this.state;
-      const { station, readOnly, defects, loadingDefects, dtBeg, dtEnd, currentContentType } = this.state;      
+      const { station, readOnly, tableData, dtBeg, dtEnd, currentContentType, loadingState } = this.state;      
 
       return (
         <div className="p-2 mt-2 border rounded">          
@@ -178,16 +214,58 @@ export default class StationsCard extends Component{
               />  
             : null}
 
-            {(currentContentType === 'statistics') ? 
-              <StationDefectsSlice 
-                defects={defects}
-                loadingDefects={loadingDefects}
+            {(currentContentType === 'slice') ? 
+              <UniversalTable 
+                tableName={"Статистические данные"}
+                tableData={tableData}
+                loadingState={loadingState}
                 dtBeg={dtBeg}
                 dtEnd={dtEnd}
                 setStateByPropName={this.setStateByPropName}
-                loadDefects={this.loadDefects}
+                loadData={this.loadData}
+                currentContentType={currentContentType}
               />
-            : null}  
+            : null} 
+
+            {(currentContentType === 'trains') ?
+              <UniversalTable
+                tableName={"Список составов"}
+                tableData={tableData}
+                loadingState={loadingState}
+                dtBeg={dtBeg}
+                dtEnd={dtEnd}
+                setStateByPropName={this.setStateByPropName}
+                loadData={this.loadData}
+                currentContentType={currentContentType}
+              />
+              : null} 
+
+            {(currentContentType === 'impulse') ?
+              <UniversalTable
+                tableName={"Список дефектов"}
+                tableData={tableData}
+                loadingState={loadingState}
+                dtBeg={dtBeg}
+                dtEnd={dtEnd}
+                setStateByPropName={this.setStateByPropName}
+                loadData={this.loadData}
+                currentContentType={currentContentType}
+              />
+              : null} 
+
+            {(currentContentType === 'scat') ?
+              <UniversalTable
+                tableName={"Данные переданные в СКАТ"}
+                tableData={tableData}
+                loadingState={loadingState}
+                dtBeg={dtBeg}
+                dtEnd={dtEnd}
+                setStateByPropName={this.setStateByPropName}
+                loadData={this.loadData}
+                currentContentType={currentContentType}
+              />
+              : null}             
+
           </div>  
         </div>
       );
