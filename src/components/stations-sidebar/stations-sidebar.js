@@ -111,7 +111,7 @@ export default class StationsSidebar extends Component {
           onClick={() => this.props.setCurrentStation(id)}>
           {displayName}
           < img className="img-status " alt="email" 
-            src={`./img/spider/email_${(replError) ? 'red' : 'green' }.png`} /> 
+            src={`./img/spider/lan_connect_${(replError) ? 'red' : 'green' }.png`} /> 
         </li>
       );
     });
