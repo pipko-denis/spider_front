@@ -108,7 +108,7 @@ export default class StationsCard extends Component{
     if (!currentStation) { return };
 
     const { dtBeg, dtEnd, currentContentType } = this.state;
-    //console.log('loadData', currentStation, dtBeg, dtEnd, currentContentType)
+    console.log('loadData', currentStation, dtBeg, dtEnd, currentContentType)
     this.cdcService.getData(currentStation, dtBeg, dtEnd, currentContentType)
       .then((tableData) => {
         //console.log(tableData);

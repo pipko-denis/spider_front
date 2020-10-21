@@ -100,7 +100,7 @@ export default class StationsSidebar extends Component {
     const { currentStation } = this.props;
 
     return list.map((item,index) => {
-      const { id, displayName, replError } = item;
+      const { id, displayName, noConnError, replEnab, oneSideDefectsError, noDefectsError } = item;
 
       return (
         <li className={"list-group-item d-flex justify-content-between align-items-center " 
@@ -110,11 +110,29 @@ export default class StationsSidebar extends Component {
           key={id}
           onClick={() => this.props.setCurrentStation(id)}>
           {displayName}
-          < img className="img-status " alt="email" 
-            src={`./img/spider/lan_connect_${(replError) ? 'red' : 'green' }.png`} /> 
+          <div>
+            < img className="img-status" alt="no defects error"
+              src={`./img/spider/access_point_${this.getNoDefectsColor(oneSideDefectsError, noDefectsError)}.png`} />
+            < img className="img-status ml-2" alt="no conn error" 
+              src={`./img/spider/lan_connect_${this.getLanConnectColor(noConnError, replEnab)}.png`} />               
+          </div>
         </li>
       );
     });
+  }
+
+  getNoDefectsColor(oneSideDefectsError, noDefectsError ){
+    console.log(oneSideDefectsError, noDefectsError);
+    if (oneSideDefectsError === true){
+      return 'oneside';
+    } else return (noDefectsError) ? 'off' : 'on';
+  }
+
+  getLanConnectColor(noConnError, replEnab) {
+    if (replEnab === false) {
+      return 'gray';
+    } else return (noConnError) ? 'red' : 'green';
+
   }
 
   onChanged = (event) => {

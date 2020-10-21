@@ -1,6 +1,7 @@
 export default class SwapiService {
 
-  _apiBase = 'http://172.25.78.88:8080/cdcapi/';
+  _apiBase = 'http://localhost:8080/';
+  //_apiBase = 'http://172.25.78.88:8080/cdcapi/';
   //_apiBase = 'http://172.25.78.109:8080/';
   _headers = {
                 'Access-Control-Allow-Origin': '*',
@@ -39,6 +40,7 @@ export default class SwapiService {
     const res = await fetch(`${this._apiBase}api/${link}/${stationId}/${dtBeg}/${dtEnd}`, {
       headers: this._headers
     });
+    console.log(`${this._apiBase}api/${link}/${stationId}/${dtBeg}/${dtEnd}`);
 
     if (!res.ok) {
       const body = await res.json();

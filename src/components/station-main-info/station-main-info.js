@@ -66,31 +66,31 @@ export default class StationMainInfo extends Component{
           <div className="row">            
             <div className="col-sm-3">
               <label className="col-form-label" htmlFor="id">Код</label>
-              <input readOnly type="text" className="form-control" placeholder="id" id="id" value={id} />
+              <input readOnly type="text" className="form-control"  id="id" value={id} />
             </div>
             <div className="col-sm-9">
               <label className="col-form-label" htmlFor="displayName">Наименование сокращённое</label>
-              <input disabled={false} type="text" className="form-control" placeholder="displayName" id="displayName" 
-                value={displayName}
+              <input disabled={false} type="text" className="form-control" id="displayName" 
+                value={displayName || ''}
                 onChange={this.onChanged}
                 />
             </div>
           </div>
 
           <label className="col-form-label" htmlFor="fullName">Наименование полное</label>
-          <input disabled={readOnly} type="text" className="form-control" placeholder="fullName" id="fullName" 
-            value={fullName} onChange={this.onChanged}/>
+          <input disabled={readOnly} type="text" className="form-control" id="fullName" 
+            value={fullName || ''} onChange={this.onChanged}/>
 
           <div className="row">
             <div className="col-sm-6">
               <label className="col-form-label" htmlFor="host">IP-адрес</label>
-              <input disabled={readOnly} type="text" className="form-control" placeholder="host" id="host" 
-                value={host} onChange={this.onChanged}/>
+              <input disabled={readOnly} type="text" className="form-control" id="host" 
+                value={host || ''} onChange={this.onChanged}/>
             </div>
             <div className="col-sm-6">
               <label className="col-form-label" htmlFor="port">Порт</label>
-              <input disabled={readOnly} type="number" className="form-control" placeholder="port" id="port" 
-              value={port} onChange={this.onChanged}/>
+              <input disabled={readOnly} type="number" className="form-control" id="port" 
+                value={port || ''} onChange={this.onChanged}/>
             </div>
           </div>
           
@@ -107,8 +107,8 @@ export default class StationMainInfo extends Component{
 
             <div className="col-sm-6">
               <label className="col-form-label" htmlFor="replFreqMs">Частота реплицирования (мс.)</label>
-              <input disabled={readOnly} type="number" className="form-control" placeholder="replFreqMs" id="replFreqMs" 
-              value={replFreqMs} onChange={this.onChanged}/>
+              <input disabled={readOnly} type="number" className="form-control" id="replFreqMs" 
+                value={replFreqMs || ''} onChange={this.onChanged}/>
             </div>
           </div>
 
@@ -129,13 +129,13 @@ export default class StationMainInfo extends Component{
           <div className="row">
             <div className="col-sm-6">
               <label className="col-form-label" htmlFor="lat">Широта</label>
-              <input disabled={readOnly} type="number" className="form-control" placeholder="lat" id="lat" 
-              value={lat} onChange={this.onChanged}/>
+              <input disabled={readOnly} type="number" className="form-control" id="lat" 
+              value={lat || ''} onChange={this.onChanged}/>
             </div>
             <div className="col-sm-6">
               <label className="col-form-label" htmlFor="lon">Долгота</label>
-              <input disabled={readOnly} type="number" className="form-control" placeholder="lon" id="lon" 
-              value={lon} onChange={this.onChanged}/>
+              <input disabled={readOnly} type="number" className="form-control" id="lon" 
+                value={lon || ''} onChange={this.onChanged}/>
             </div>
           </div>
 
