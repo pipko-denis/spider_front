@@ -122,7 +122,7 @@ export default class StationsSidebar extends Component {
   }
 
   getNoDefectsColor(oneSideDefectsError, noDefectsError ){
-    console.log(oneSideDefectsError, noDefectsError);
+    //console.log(oneSideDefectsError, noDefectsError);
     if (oneSideDefectsError === true){
       return 'oneside';
     } else return (noDefectsError) ? 'off' : 'on';
@@ -141,12 +141,16 @@ export default class StationsSidebar extends Component {
     //this.props.setStationPropByName(event.target.id, value);
   }
 
+  onBtnReloadStationsClick = () =>{
+    console.log("click");
+  }
+
 
   render() {
 
     const { filter, sideFilterNoConn, sideFilterNoDefectsForDay, sideFilterOnlyOneSideDefects } = this.state;
 
-    const { stations } = this.props;
+    const { stations, loadingStaionsState, onReloadStationsCall } = this.props;
 
     if (!stations) {
        return <Spinner />;
@@ -159,19 +163,27 @@ export default class StationsSidebar extends Component {
     return (
       <div>
         <div className="form-group">
-          <input 
-                type="text" 
-                value={filter}
-                onChange={this.onFilterChange}
-                onKeyUp={this.onFilterKeyup}
-                className="form-control" 
-                placeholder="Поиск станции" 
-                />
+          <div className="d-flex">
+            <input 
+                  type="text" 
+                  value={filter}
+                  onChange={this.onFilterChange}
+                  onKeyUp={this.onFilterKeyup}
+                  className="form-control" 
+                  placeholder="Поиск станции" 
+                  />
+            <button type="button"
+              className="btn btn-primary btn-sm"
+              disabled={loadingStaionsState}
+              onClick={() => onReloadStationsCall()}>
+              <img  alt="reload" src="./img/spider/refresh.png"/>
+            </button>
+          </div>     
           <div className="custom-control custom-switch">
             <input type="checkbox" className="custom-control-input" id="sideFilterNoConn"
               checked={sideFilterNoConn} onChange={this.onChanged} />
             <label className="custom-control-label" htmlFor="sideFilterNoConn">Нет связи</label>
-          </div>     
+          </div>
         </div>
         <div className="scrollable">
           <ul className="list-group">

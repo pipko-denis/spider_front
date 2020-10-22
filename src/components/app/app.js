@@ -15,20 +15,39 @@ export default class App extends Component{
     currentStation: null,
     currentContentType: 'mapctrl',
     stations: [],
+    loadingStaionsState:  true,
+    error: false,
   }
 
+  onStationsLoaded = (stations) => {
+    console.log(stations)
+    this.setState({
+      stations,
+      loadingStaionsState: false,
+      error: false,
+    });
+  };
 
-  componentDidMount() {
+  onError = (error) => {
+    console.log(error);
+    this.setState({
+      stations: [],
+      loadingStaionsState: false,
+      error: true,
+    });
+  };
+
+  loadStations = () => {
     const { getStations } = this.cdcService;
-
     getStations()
-      .then((stations) => {
-        console.log(stations)
-        this.setState({
-          stations
-        });
-      });
+      .then(this.onStationsLoaded)
+      .catch(this.onError);
+  };
 
+  componentDidMount() {         
+    this.loadStations();
+
+    setInterval(this.loadStations,20000);
   }
 
   setCurrentStationAndContentToggle = (currentStation, currentContentType) =>{
@@ -48,6 +67,7 @@ export default class App extends Component{
     //console.log('currentContentType', this.state.currentContentType);
   }
 
+
   onContentSwitch = () => {    
     const { currentContentType } = this.state;
     if (currentContentType === 'mapctrl') this.onContentToggle('details')
@@ -58,7 +78,7 @@ export default class App extends Component{
 
     const { getStations } = this.cdcService;
 
-    const { currentStation, currentContentType, stations} = this.state;
+    const { currentStation, currentContentType, stations, loadingStaionsState} = this.state;
 
     return (
       <div>
@@ -68,6 +88,8 @@ export default class App extends Component{
           <div className="p-3 col-sm-5 col-md-4 col-lg-3">
               <StationsSidebar                 
                 stations={stations}
+                loadingStaionsState={loadingStaionsState}
+                onReloadStationsCall={this.loadStations}
                 currentStation={currentStation}
                 getStations={getStations} 
                 setCurrentStation={this.setCurrentStation}
