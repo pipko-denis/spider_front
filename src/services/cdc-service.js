@@ -1,6 +1,8 @@
 export default class SwapiService {
 
-  _apiBase = 'http://localhost:8080/';
+  //_apiBase = 'http://localhost:8080/';
+  _apiBase = 'http://172.25.78.128:8080/cdcapi/';
+  //http://172.25.78.128/
   //_apiBase = 'http://172.25.78.88:8080/cdcapi/';
   //_apiBase = 'http://172.25.78.109:8080/';
   _headers = {

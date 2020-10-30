@@ -65,13 +65,15 @@ export default class UniversalTable extends Component{
 
     if (this.props.currentContentType === 'slice') {
       return [
-        { caption: 'Дата', field: 'onDate', id: 1 },
-        { caption: 'Кол. составов', field: 'trainsPassedCount', id: 2 },
-        { caption: 'Кол. вагонов', field: 'carsPassedCount', id: 3 },
-        { caption: 'Кол. осей', field: 'wheelsPassedCount', id: 4 },
-        { caption: 'Т0', field: 'warnWheelsCount', id: 5 },
-        { caption: 'Т1', field: 'alarmWheelsCount', id: 6 },
-        { caption: 'Составы в СКАТ', field: 'trainsCountSendToScat', id: 7 },
+        { caption: 'Дата среза данных', field: 'onDate', id: 1 },
+        { caption: 'Всего составов', field: 'trainsPassedCount', id: 2 },
+        { caption: 'Составов без вагонов', field: 'trainsWoWagons', id: 3 },
+        { caption: 'Всего вагонов', field: 'carsPassedCount', id: 4 },
+        { caption: 'Всего осей', field: 'wheelsPassedCount', id: 5 },
+        { caption: 'Т1', field: 'warnWheelsCount', id: 6 },
+        { caption: 'Т2', field: 'alarmWheelsCount', id: 7 },
+        { caption: 'СКАТ (передано)', field: 'trainsCountSendToScat', id: 8 },
+        { caption: 'СКАТ (ошибки)', field: 'trainsCountScatFail', id: 9 },
       ]
     }
 

@@ -47,7 +47,11 @@ export default class App extends Component{
   componentDidMount() {         
     this.loadStations();
 
-    setInterval(this.loadStations,20000);
+    this.intervalId = setInterval(this.loadStations,30000);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.intervalId);
   }
 
   setCurrentStationAndContentToggle = (currentStation, currentContentType) =>{

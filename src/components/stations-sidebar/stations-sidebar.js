@@ -21,7 +21,7 @@ export default class StationsSidebar extends Component {
   }
 
   onFilterKeyup = (e) => {
-    console.log(e.keyCode);
+//    console.log(e.keyCode);
     if (e.keyCode === 40)  {       
       const recCount = this.getFilteredRecords().length;
         if ( this.state.curHighLightedStation < recCount  ) {
@@ -67,16 +67,16 @@ export default class StationsSidebar extends Component {
     term = term.toLowerCase();
     //console.log(term);
     const currentDate = new Date();
-    const currentDateMs = currentDate.getTime() - (currentDate.getTimezoneOffset() * 60000);
-    console.log(currentDateMs, currentDate.getTime(), currentDate.getTimezoneOffset());
+//    const currentDateMs = currentDate.getTime() - (currentDate.getTimezoneOffset() * 60000);
+//    console.log(currentDateMs, currentDate.getTime(), currentDate.getTimezoneOffset());
     const result = list.filter( (el) => { 
-      console.log(el.lastReplDate ? (currentDateMs - (new Date(Date.parse(el.lastReplDate)).getTime() - 60000)) / 60000 : false);
+//      console.log(el.lastReplDate ? (currentDateMs - (new Date(Date.parse(el.lastReplDate)).getTime() - 60000)) / 60000 : false);
       //console.log(el.lastReplDate ? new Date(Date.parse(el.lastReplDate)).getTime() : 0,currentDateMs);
       return (el.displayName) && ( el.displayName.toLowerCase().indexOf(term) > -1) 
         //&& (sideFilterNoConn ?  : true)
     } )
 
-    console.log(60*1000*30);
+//    console.log(60*1000*30);
     //console.log(result);
     return result;
 
@@ -125,13 +125,13 @@ export default class StationsSidebar extends Component {
     //console.log(oneSideDefectsError, noDefectsError);
     if (oneSideDefectsError === true){
       return 'oneside';
-    } else return (noDefectsError) ? 'off' : 'on';
+    } else return (noDefectsError === true) ? 'off' : 'on';
   }
 
   getLanConnectColor(noConnError, replEnab) {
     if (replEnab === false) {
       return 'gray';
-    } else return (noConnError) ? 'red' : 'green';
+    } else return (noConnError === true) ? 'red' : 'green';
 
   }
 
@@ -140,11 +140,6 @@ export default class StationsSidebar extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     //this.props.setStationPropByName(event.target.id, value);
   }
-
-  onBtnReloadStationsClick = () =>{
-    console.log("click");
-  }
-
 
   render() {
 
