@@ -1,0 +1,22 @@
+.main-content{
+  border: 1px solid black;
+}
+.sidebar{
+  /*min-width: 300px;*/
+  border: 1px solid red;
+}
+
+.high-component{
+  /*height: 600px; calc(100vh - 170px);*/
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;  
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

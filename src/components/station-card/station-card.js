@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import './station-card.css';
 import CdcService from '../../services/cdc-service';
-import StationMainInfo from '../station-main-info'
+import StationMainInfo from '../station-main-info';
 import StationCardContentToggle from '../station-card-content-toggle';
 import UniversalTable from '../universal-table';
 
