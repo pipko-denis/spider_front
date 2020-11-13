@@ -87,7 +87,7 @@ export default class App extends Component {
     return (
           <div className="container-fluid ">
             <div className="row high-component">
-              <div className="p-3 col-sm-5 col-md-4 col-lg-3">
+              <div className="p-2 col-sm-5 col-md-4 col-lg-3">
                 <StationsSidebar
                   stations={stations}
                   loadingStaionsState={loadingStaionsState}

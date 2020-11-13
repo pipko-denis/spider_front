@@ -11,6 +11,13 @@ export default class StationsSidebar extends Component {
     sideFilterNoConn: false,
     sideFilterNoDefectsForDay: false,
     sideFilterOnlyOneSideDefects: false,
+    showFilters: false,
+  }
+
+  onBtnShowFiltersClick(){
+    this.setState( (state) => {
+      return { showFilters: ! state.showFilters}
+    })
   }
 
   getFilteredRecords(){
@@ -58,26 +65,42 @@ export default class StationsSidebar extends Component {
     this.setState({ filter, curHighLightedStation: -1})    
   }
 
-  filterStations(list, term, sideFilterNoConn){
-
-    if ((!term) || (term.length === 0) ) {
+  filterStations(list, term){
+    
+    if ( ((!term) || (term.length === 0) ) &&  
+      (!this.state.sideFilterNoConn) && (!this.state.sideFilterNoDefectsForDay) && (!this.state.sideFilterOnlyOneSideDefects)) {
       return list;
     }
 
-    term = term.toLowerCase();
-    //console.log(term);
-    const currentDate = new Date();
-//    const currentDateMs = currentDate.getTime() - (currentDate.getTimezoneOffset() * 60000);
-//    console.log(currentDateMs, currentDate.getTime(), currentDate.getTimezoneOffset());
-    const result = list.filter( (el) => { 
-//      console.log(el.lastReplDate ? (currentDateMs - (new Date(Date.parse(el.lastReplDate)).getTime() - 60000)) / 60000 : false);
-      //console.log(el.lastReplDate ? new Date(Date.parse(el.lastReplDate)).getTime() : 0,currentDateMs);
-      return (el.displayName) && ( el.displayName.toLowerCase().indexOf(term) > -1) 
-        //&& (sideFilterNoConn ?  : true)
-    } )
+    let result = [...list];
 
-//    console.log(60*1000*30);
-    //console.log(result);
+    if (this.state.sideFilterNoConn === true) {
+      result = result.filter((el) => {
+        return (el.noConnError === true) 
+      })
+    }
+
+    if (this.state.sideFilterNoDefectsForDay === true) {
+      result = result.filter((el) => {
+        return (el.noDefectsError === true)
+      })
+    }
+
+    if (this.state.sideFilterOnlyOneSideDefects === true) {
+      result = result.filter((el) => {
+        return (el.oneSideDefectsError === true)
+      })
+    }    
+
+
+    if ((term) && (term.length > 0)) {
+      term = term.toLowerCase();
+      result = result.filter((el) => {
+        return (el.displayName) && (el.displayName.toLowerCase().indexOf(term) > -1)
+      })
+    }    
+    
+
     return result;
 
   }
@@ -122,10 +145,15 @@ export default class StationsSidebar extends Component {
   }
 
   getNoDefectsColor(oneSideDefectsError, noDefectsError ){
-    //console.log(oneSideDefectsError, noDefectsError);
-    if (oneSideDefectsError === true){
-      return 'oneside';
-    } else return (noDefectsError === true) ? 'off' : 'on';
+    if (noDefectsError === true) {
+      return 'off'
+    }else{
+      if (oneSideDefectsError === true){
+        return 'oneside';
+      }else{
+        return 'on';
+      }
+    }
   }
 
   getLanConnectColor(noConnError, replEnab) {
@@ -135,10 +163,10 @@ export default class StationsSidebar extends Component {
 
   }
 
-  onChanged = (event) => {
+  onChanged = (event) => {    
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    //this.props.setStationPropByName(event.target.id, value);
+    this.setState(() => { return { [target.id]: value } })
   }
 
   render() {
@@ -151,13 +179,13 @@ export default class StationsSidebar extends Component {
        return <Spinner />;
      }
 
-    const visibleItems = this.filterStations(stations, filter, sideFilterNoConn);
+    const visibleItems = this.filterStations(stations, filter);
 
     const items = this.renderItems(visibleItems);
 
     return (
       <div>
-        <div className="form-group">
+        <div className="form-group mb-2">
           <div className="d-flex">
             <input 
                   type="text" 
@@ -173,14 +201,32 @@ export default class StationsSidebar extends Component {
               onClick={() => onReloadStationsCall()}>
               <img  alt="reload" src="./img/spider/refresh.png"/>
             </button>
-          </div>     
-          <div className="custom-control custom-switch">
-            <input type="checkbox" className="custom-control-input" id="sideFilterNoConn"
-              checked={sideFilterNoConn} onChange={this.onChanged} />
-            <label className="custom-control-label" htmlFor="sideFilterNoConn">Нет связи</label>
-          </div>
+            <button type="button"
+              className="btn btn-primary btn-sm"
+              disabled={loadingStaionsState}
+              onClick={ () => this.onBtnShowFiltersClick()}>
+              <img alt="reload" src={`./img/spider/filter-${(this.state.showFilters) ? 'off' : 'on' }.png`} />
+            </button>
+          </div>   
+          <div hidden={(this.state.showFilters) ? '' : 'hidden' }>  
+            <div className="custom-control custom-switch mt-2">
+              <input type="checkbox" className="custom-control-input" id="sideFilterNoConn"
+                checked={sideFilterNoConn} onChange={this.onChanged} />
+              <label className="custom-control-label" htmlFor="sideFilterNoConn">Нет связи</label>
+            </div>
+            <div className="custom-control custom-switch">
+              <input type="checkbox" className="custom-control-input" id="sideFilterNoDefectsForDay"
+                checked={sideFilterNoDefectsForDay} onChange={this.onChanged} />
+              <label className="custom-control-label" htmlFor="sideFilterNoDefectsForDay">Нет дефектов</label>
+            </div>
+            <div className="custom-control custom-switch">
+              <input type="checkbox" className="custom-control-input" id="sideFilterOnlyOneSideDefects"
+                checked={sideFilterOnlyOneSideDefects} onChange={this.onChanged} />
+              <label className="custom-control-label" htmlFor="sideFilterOnlyOneSideDefects">Дефекты с одной стороны</label>
+            </div>
+          </div>  
         </div>
-        <div className="scrollable">
+        <div className="scrollable" style={{ height: `calc(100vh - ${(this.state.showFilters) ? '226' : '151'}px)`}} >
           <ul className="list-group">
             {items}
           </ul>

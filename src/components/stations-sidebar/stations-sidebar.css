@@ -1,8 +1,9 @@
 .scrollable {
   overflow-y: scroll; 
   /*max-height: 80vh;
-  height: 80vh;*/
-  height: calc(100vh - 200px);
+  height: 80vh;
+  height: calc(100vh - 230px);
+  */
 }
 
 .img-status{

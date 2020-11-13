@@ -11,7 +11,7 @@ export default class MapCtrl extends Component{
     this.props.setCurrentStationAndContentToggle(id, 'details');
   }
 
-  renderMarkerLabelItem(caption,status){
+  renderMarkerParagraph(caption,status){
     return (<p className={(status) ? "text-danger m-0" : "m-0"}>{caption}: { (status) ? "да" : "нет" }</p>);
   }
 
@@ -46,11 +46,11 @@ export default class MapCtrl extends Component{
             <div className="d-flex flex-column">
               <h5><a href="" onClick={(e) => { e.preventDefault(); this.onPopupChooseStation(station.id) }}>{station.displayName}</a></h5>
               <p className="m-0">Посл.репликация: {station.lastReplDate}</p>
-              {this.renderMarkerLabelItem("Ошибки посл. репликации", station.replError)}
-              {this.renderMarkerLabelItem("Нет связи", station.noConnError)}
+              {this.renderMarkerParagraph("Ошибки посл. репликации", station.replError)}
+              {this.renderMarkerParagraph("Нет связи", station.noConnError)}
 
-              {this.renderMarkerLabelItem("Дефекты с одной стороны",station.oneSideDefectsError)}
-              {this.renderMarkerLabelItem("Нет дефектов",station.noDefectsError)}
+              {this.renderMarkerParagraph("Дефекты с одной стороны",station.oneSideDefectsError)}
+              {this.renderMarkerParagraph("Нет дефектов",station.noDefectsError)}
             </div>
           </Popup>
         </Marker>

@@ -1,0 +1,10 @@
+th {
+  text-align: center;
+}
+
+.scrollable-report {
+  overflow-y: scroll; 
+  /*max-height: 80vh;
+  height: 80vh;*/
+  height: calc(100vh - 200px);
+}

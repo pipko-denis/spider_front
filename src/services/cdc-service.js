@@ -24,6 +24,20 @@ export default class SwapiService {
     return body;
   }
 
+  getConsolidateReport = async (dtBeg, dtEnd) => {
+    const res = await fetch(`${this._apiBase}api/reports/consolidate/${dtBeg}/${dtEnd}`, {
+      headers: this._headers
+    });
+
+    if (!res.ok) {
+      const body = await res.json();
+      console.log(body);
+      throw new Error(`Не удалось загрузить сводный отчёт, статус: ${res.status}`)
+    }
+    const body = await res.json();
+    return body;
+  }
+
   getDaySliceByPeriodStation = async (stationId,dtBeg,dtEnd) => {
     const res = await fetch(`${this._apiBase}api/slice/${stationId}/${dtBeg}/${dtEnd}`, {
       headers: this._headers
